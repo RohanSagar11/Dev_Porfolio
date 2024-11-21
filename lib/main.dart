@@ -1,28 +1,8 @@
 import 'package:dev_folio/screens/homescreen.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'firebase_options.dart';
 
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  if (defaultTargetPlatform != TargetPlatform.windows) {
-    // window currently don't support storage emulator
-    final emulatorHost =
-    (!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
-        ? '10.0.2.2'
-        : 'localhost';
-
-    await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
-  }
-
+void main() {
   runApp(const MyApp());
 }
 
