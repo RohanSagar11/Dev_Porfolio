@@ -1,5 +1,6 @@
 
 import 'dart:ui';
+import 'package:dev_folio/screens/workcard.dart';
 import 'package:dev_folio/widgets/projectshowcase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 5,
         leading: Padding(
           padding: const EdgeInsets.only(top: 8.0 ,left: 8.0, bottom: 8.0),
-          child: Image.asset("hacker.png"),
+          child: Image.asset("assets/hacker.png"),
         ),
         title: const Text("Dev Folio", style: TextStyle(color: Colors.black),),
         actions:  [
@@ -60,7 +61,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(width: 20,),
           CustomBarButton(text: 'Skills', onPressed: (){_scrollToTarget(skillspage);},),
           const SizedBox(width: 10,),
-          Image.asset('flutterimg.png', height: 50, width: 50,),
+          Image.asset('assets/flutterimg.png', height: 50, width: 50,),
           const SizedBox(width: 10,),
         ],
       ),
@@ -85,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                       await _launchURL(emailLaunchUri.toString());
                     },),
                 ],),
-                Image.asset("profileimage.png", height: 200, width: 200,),
+                Image.asset("assets/profileimage.png", height: 200, width: 200,),
 
               ],
             ),
@@ -99,7 +100,7 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              Image.asset("guyworking.jpg", height: 300, width: 300,),
+              Image.asset("assets/guyworking.jpg", height: 300, width: 300,),
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -121,9 +122,81 @@ class HomeScreen extends StatelessWidget {
               indent: 100,
               endIndent: 100,
             ),
-            SizedBox(height: 30,),
-            Center(key: projects, child: Text("Projects", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
-            SizedBox(height: 50,),
+            const SizedBox(height: 30,),
+            const Center(child: Text("Work Experience", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Left Section
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Work Experience',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Have been designing\nsince my past 4 years',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(width: 50), // Space between sections
+
+                  // Right Section
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        WorkExperienceCard(
+                          number: '1',
+                          color: Colors.yellow,
+                          title: 'Design intern at Google',
+                          description:
+                          'Worked on design system at Material 3 designs',
+                          date: '20, April 2021',
+                        ),
+                        WorkExperienceCard(
+                          number: '2',
+                          color: Colors.blue,
+                          title: 'Sr. UI/UX Designer at Microsoft',
+                          description:
+                          'Worked on design system at Material 3 designs',
+                          date: '20, April 2022',
+                        ),
+                        WorkExperienceCard(
+                          number: '3',
+                          color: Colors.pink,
+                          title: 'Software Engineer at SASS Startup',
+                          description:
+                          'Worked on design system at Material 3 designs',
+                          date: '20, April 2023',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20,),
+            Center(key: projects, child: const Text("Projects", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
+            const SizedBox(height: 50,),
             Center(
               child: Container(
                 color: Colors.transparent,
@@ -173,9 +246,9 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('linkedin.png',fit: BoxFit.fill,))),
-                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('twitter.png',fit: BoxFit.fill,))),
-                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('mail.png', fit: BoxFit.fill,))),
+                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('assets/linkedin.png',fit: BoxFit.fill,))),
+                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('assets/twitter.png',fit: BoxFit.fill,))),
+                        IconButton(onPressed: (){}, icon: SizedBox(height: 30, width: 30, child: Image.asset('assets/mail.png', fit: BoxFit.fill,))),
                       ],
                     ),
                   )
