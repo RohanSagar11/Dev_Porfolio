@@ -42,6 +42,8 @@ class HomeScreen extends StatelessWidget {
         curve: Curves.easeInOut,
       );
     }
+    final size = MediaQuery.of(context).size.width;
+    print(size);
 
     return  Scaffold(
       backgroundColor: Colors.white,
@@ -55,14 +57,39 @@ class HomeScreen extends StatelessWidget {
         ),
         title: const Text("Dev Folio", style: TextStyle(color: Colors.black),),
         actions:  [
-          CustomBarButton(text: 'About Me', onPressed: (){_scrollToTarget(about);},),
-          const SizedBox(width: 20,),
-          CustomBarButton(text: 'Projects', onPressed: (){_scrollToTarget(projects);},),
-          const SizedBox(width: 20,),
-          CustomBarButton(text: 'Skills', onPressed: (){_scrollToTarget(skillspage);},),
-          const SizedBox(width: 10,),
-          Image.asset('assets/flutterimg.png', height: 50, width: 50,),
-          const SizedBox(width: 10,),
+          size>500?Row(children: [
+            CustomBarButton(text: 'About Me', onPressed: (){_scrollToTarget(about);},),
+            const SizedBox(width: 20,),
+            CustomBarButton(text: 'Projects', onPressed: (){_scrollToTarget(projects);},),
+            const SizedBox(width: 20,),
+            CustomBarButton(text: 'Skills', onPressed: (){_scrollToTarget(skillspage);},),
+            const SizedBox(width: 10,),
+            Image.asset('assets/flutterimg.png', height: 50, width: 50,),
+            const SizedBox(width: 10,),
+          ],):
+          Row(
+            children: [
+              Image.asset('assets/flutterimg.png', height: 50, width: 50,),
+              const SizedBox(width: 10,),
+              PopupMenuButton<String>(
+                onSelected: (value) {
+                  if (value == 'About') {
+                    _scrollToTarget(about);
+                  } else if (value == 'Projects') {
+                    _scrollToTarget(projects);
+                  } else if (value == 'Skills') {
+                    _scrollToTarget(skillspage);
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(value: 'About', child: Text('About')),
+                  PopupMenuItem(value: 'Projects', child: Text('Projects')),
+                  PopupMenuItem(value: 'Skills', child: Text('Skills')),
+                ],
+              ),
+            ],
+          ),
+
         ],
       ),
       body: SingleChildScrollView(
@@ -77,16 +104,16 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  const Text("Hello, I'm",style: TextStyle(fontSize: 20),),
-                  const Text("Rohan Sagar", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
-                  const Text("Flutter Developer", style: TextStyle(fontSize: 30, fontStyle: FontStyle.italic),),
+                  Text("Hello, I'm",style: TextStyle(fontSize:  size > 500 ? 20 : 15),),
+                   Text("Rohan Sagar", style: TextStyle(fontSize: size > 500 ? 60 : 30, fontWeight: FontWeight.bold),),
+                   Text("Flutter Developer", style: TextStyle(fontSize: size > 500 ? 30 : 15, fontStyle: FontStyle.italic),),
                     const SizedBox(height: 20,),
                     CustomBarButton(
                       text: "Email me", onPressed: ()async{
                       await _launchURL(emailLaunchUri.toString());
                     },),
                 ],),
-                Image.asset("assets/profileimage.png", height: 200, width: 200,),
+                Image.asset("assets/profileimage.png", height: size > 500 ? 150 : 100, width: size > 500 ? 150 : 100,),
 
               ],
             ),
@@ -97,26 +124,65 @@ class HomeScreen extends StatelessWidget {
               endIndent: 100,
             ),
             const SizedBox(height: 40,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            size>500 ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-              Image.asset("assets/guyworking.jpg", height: 300, width: 300,),
+                Image.asset("assets/guyworking.jpg", height: 300, width: 300,),
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("About Me", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), key: about,),
-                  const SizedBox(height: 20,),
-                  const Text("I'm Rohan Sagar, an experienced Android App Developer skilled in both Android\nand Flutter development.\n"
-                      "I previously worked at Cloudnuro.ai,optimizing and integrating APIs for SaaS applications. \n"
-                      "I am proficient in Kotlin, Dart, and responsive UI design.\n"
-                      "My technical strengths also include expertise in Flutter and Dart."),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: size/3,
+                    child: Text(
+                      softWrap: true,
+                      "I'm Rohan Sagar, an experienced Android App Developer skilled in both Android"
+                          "and Flutter development.\n"
+                          "I previously worked at cloudnuro.ai, optimizing and integrating APIs for SaaS applications.\n"
+                          "I am proficient in Kotlin, Dart, and responsive UI design.\n"
+                          "My technical strengths also include expertise in Flutter and Dart.\n",
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.left,
+                        ),
+                  ),
+
                   const SizedBox(height: 20,),
                   CustomBarButton(text: "Linkedin", onPressed: () async{
                     await _launchURL('https://www.linkedin.com/in/rohan-sagar-rs/');
                     }, ),
                 ],
               )
-            ],),
+            ],) : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.asset("assets/guyworking.jpg", height: 300, width: 300,),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("About Me", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), key: about,),
+                      const SizedBox(height: 20),
+                      Text(
+                        softWrap: true,
+                        "I'm Rohan Sagar, an experienced Android App Developer skilled in both Android"
+                            "and Flutter development.\n"
+                            "I previously worked at cloudnuro.ai, optimizing and integrating APIs for SaaS applications.\n"
+                            "I am proficient in Kotlin, Dart, and responsive UI design.\n"
+                            "My technical strengths also include expertise in Flutter and Dart.\n",
+                        style: TextStyle(fontSize: 15),
+                        textAlign: TextAlign.left,
+                      ),
+
+                      const SizedBox(height: 20,),
+                      CustomBarButton(text: "Linkedin", onPressed: () async{
+                        await _launchURL('https://www.linkedin.com/in/rohan-sagar-rs/');
+                      }, ),
+                    ],
+                  ),
+                )
+              ],),
             const Divider(
               height: 2,
               indent: 100,
@@ -148,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'Have been designing\nsince my past 4 years',
+                          'Have been developing\nsince my past 1 years',
                           style: TextStyle(fontSize: 16),
                         ),
                       ],
@@ -167,27 +233,12 @@ class HomeScreen extends StatelessWidget {
                         WorkExperienceCard(
                           number: '1',
                           color: Colors.yellow,
-                          title: 'Design intern at Google',
+                          title: 'Associate Engineer at Cloudnuro.ai',
                           description:
-                          'Worked on design system at Material 3 designs',
-                          date: '20, April 2021',
+                          'Worked on report building, documentation, attended team meeting and client meeting, building with flutter',
+                          date: "31, July 2024",
                         ),
-                        WorkExperienceCard(
-                          number: '2',
-                          color: Colors.blue,
-                          title: 'Sr. UI/UX Designer at Microsoft',
-                          description:
-                          'Worked on design system at Material 3 designs',
-                          date: '20, April 2022',
-                        ),
-                        WorkExperienceCard(
-                          number: '3',
-                          color: Colors.pink,
-                          title: 'Software Engineer at SASS Startup',
-                          description:
-                          'Worked on design system at Material 3 designs',
-                          date: '20, April 2023',
-                        ),
+
                       ],
                     ),
                   ),

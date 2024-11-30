@@ -26,9 +26,11 @@ class _ProjectShowcaseState extends State<ProjectShowcase> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-
+    final size = MediaQuery.of(context).size.width;
     return
       ListView.builder(
           itemCount: models.length,
@@ -80,7 +82,49 @@ class _ProjectShowcaseState extends State<ProjectShowcase> {
                     SizedBox(height: 20),
                     Center(child: Text('Screen Shots', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
                     SizedBox(height: 20),
-                    Row(
+                    size>500?FittedBox(
+                      child: Row(
+                        children: [
+                          FittedBox(
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                              clipBehavior: Clip.hardEdge,
+                              height: 300,
+                              width: 300,
+                              child: Center(
+                                child: _controllers[index].value.isInitialized
+                                    ? AspectRatio(
+                                  aspectRatio: _controllers[index].value.aspectRatio,
+                                  child: VideoPlayer(_controllers[index]),
+                                )
+                                    : const CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
+                          FittedBox(
+                            child: Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                              height: 300,
+                              width: 500,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: model[index].screenshotsimages.length,
+                                  itemBuilder: (BuildContext context, sindex){
+                                    return Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Container(
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                                          child: Image.asset(model[index].screenshotsimages[sindex], height: 300,)),
+                                    );
+                                  }),
+                            ),
+                          )
+                        ],
+                      ),
+                    ) : Column(
                       children: [
                         Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),

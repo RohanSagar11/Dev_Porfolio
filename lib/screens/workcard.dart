@@ -8,12 +8,14 @@ class WorkExperienceCard extends StatelessWidget {
   final String description;
   final String date;
 
-  const WorkExperienceCard({
+
+   WorkExperienceCard({
     required this.number,
     required this.color,
     required this.title,
     required this.description,
     required this.date,
+
   });
 
   @override
@@ -56,6 +58,7 @@ class WorkExperienceCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
+                  softWrap: true,
                   description,
                   style: TextStyle(fontSize: 14),
                 ),
