@@ -94,10 +94,11 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 150 ,),
-            Row(
+            size>500?Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                  Column(
@@ -114,6 +115,27 @@ class HomeScreen extends StatelessWidget {
                     },),
                 ],),
                 Image.asset("assets/profileimage.png", height: size > 500 ? 150 : 100, width: size > 500 ? 150 : 100,),
+
+              ],
+            ): Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/profileimage.png", height: 300, width: 300),
+                    const SizedBox(height: 20,),
+                    Text("Hello, I'm",style: TextStyle(fontSize: 20),),
+                    Text("Rohan Sagar", style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),),
+                    Text("Flutter Developer", style: TextStyle(fontSize: 30, fontStyle: FontStyle.italic),),
+                    const SizedBox(height: 20,),
+                    CustomBarButton(
+                      text: "Email me", onPressed: ()async{
+                      await _launchURL(emailLaunchUri.toString());
+                    },),
+                  ],),
 
               ],
             ),
@@ -198,27 +220,24 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Left Section
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Work Experience',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple,
-                          ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Work Experience',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple,
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Have been developing\nsince my past 1 years',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Have been developing\nsince my past 1 years',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
                   ),
 
                   SizedBox(width: 50), // Space between sections
