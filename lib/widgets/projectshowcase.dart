@@ -5,7 +5,11 @@ import '../Screenshots.dart';
 import '../modals/projectModel.dart';
 
 class ProjectShowcase extends StatefulWidget {
-  ProjectShowcase({super.key,});
+  int index;
+  ProjectShowcase({
+    required this.index,
+    super.key,
+  });
 
   @override
   State<ProjectShowcase> createState() => _ProjectShowcaseState();
@@ -14,10 +18,12 @@ class ProjectShowcase extends StatefulWidget {
 class _ProjectShowcaseState extends State<ProjectShowcase> {
   final List<Models> models = model;
   late List<VideoPlayerController> _controllers;
+
   @override
   void initState() {
     super.initState();
-    _controllers = models.map((model) => VideoPlayerController.asset(model.mp4)).toList();
+    _controllers =
+        models.map((model) => VideoPlayerController.asset(model.mp4)).toList();
     // Initialize all controllers
     for (var controller in _controllers) {
       controller.initialize().then((_) {
@@ -26,34 +32,34 @@ class _ProjectShowcaseState extends State<ProjectShowcase> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-    return
-      ListView.builder(
-          itemCount: models.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, index){
-            return
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey), left: BorderSide(color: Colors.grey), right: BorderSide(color: Colors.grey), ),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+    return Scaffold(
+        body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey),
+                  left: BorderSide(color: Colors.grey),
+                  right: BorderSide(color: Colors.grey),
                 ),
-                padding: EdgeInsets.all(16.0),
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              padding: EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(model[index].icon, height: 100, width: 100), // Ensure the path is correct
-                    Text(model[index].name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    Text(model[index].Description),
+                    Image.asset(model[widget.index].icon,
+                        height: 100, width: 100), // Ensure the path is correct
+                    Text(model[widget.index].name,
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                    Text(model[widget.index].Description),
                     SizedBox(height: 10),
                     Row(
                       children: [
@@ -62,14 +68,28 @@ class _ProjectShowcaseState extends State<ProjectShowcase> {
                             width: 50,
                             child: IconButton(
                                 onPressed: () {},
-                                icon: SizedBox( height: 50, width: 50, child: Image.asset('play.png', fit: BoxFit.cover, height: 50, width: 50,)),
+                                icon: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: Image.asset(
+                                      'play.png',
+                                      fit: BoxFit.cover,
+                                      height: 50,
+                                      width: 50,
+                                    )),
                                 iconSize: 2)),
                         SizedBox(
                             height: 50,
                             width: 50,
                             child: IconButton(
                                 onPressed: () {},
-                                icon: SizedBox(height: 50, width: 50, child: Image.asset('github.png', fit: BoxFit.contain,)),
+                                icon: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: Image.asset(
+                                      'github.png',
+                                      fit: BoxFit.contain,
+                                    )),
                                 iconSize: 2))
                       ],
                     ),
@@ -80,103 +100,136 @@ class _ProjectShowcaseState extends State<ProjectShowcase> {
                       endIndent: 120,
                     ),
                     SizedBox(height: 20),
-                    Center(child: Text('Screen Shots', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                    Center(
+                        child: Text('Screen Shots',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20))),
                     SizedBox(height: 20),
-                    size>500?FittedBox(
-                      child: Row(
-                        children: [
-                          FittedBox(
-                            child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                              clipBehavior: Clip.hardEdge,
-                              height: 300,
-                              width: 300,
-                              child: Center(
-                                child: _controllers[index].value.isInitialized
-                                    ? AspectRatio(
-                                  aspectRatio: _controllers[index].value.aspectRatio,
-                                  child: VideoPlayer(_controllers[index]),
+                    size > 500
+                        ? FittedBox(
+                            child: Row(
+                              children: [
+                                FittedBox(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50)),
+                                    clipBehavior: Clip.hardEdge,
+                                    height: 300,
+                                    width: 300,
+                                    child: Center(
+                                      child:
+                                          _controllers[widget.index].value.isInitialized
+                                              ? AspectRatio(
+                                                  aspectRatio: _controllers[widget.index]
+                                                      .value
+                                                      .aspectRatio,
+                                                  child: VideoPlayer(
+                                                      _controllers[widget.index]),
+                                                )
+                                              : const CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                                FittedBox(
+                                  child: Container(
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20)),
+                                    height: 300,
+                                    width: 500,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            model[widget.index].screenshotsimages.length,
+                                        itemBuilder:
+                                            (BuildContext context, sindex) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Container(
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Image.asset(
+                                                  model[widget.index]
+                                                      .screenshotsimages[sindex],
+                                                  height: 300,
+                                                )),
+                                          );
+                                        }),
+                                  ),
                                 )
-                                    : const CircularProgressIndicator(),
-                              ),
-                            ),
-                          ),
-                          FittedBox(
-                            child: Container(
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                              height: 300,
-                              width: 500,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: model[index].screenshotsimages.length,
-                                  itemBuilder: (BuildContext context, sindex){
-                                    return Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Container(
-                                          clipBehavior: Clip.hardEdge,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                                          child: Image.asset(model[index].screenshotsimages[sindex], height: 300,)),
-                                    );
-                                  }),
+                              ],
                             ),
                           )
-                        ],
-                      ),
-                    ) : Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                          clipBehavior: Clip.hardEdge,
-                          height: 300,
-                          width: 300,
-                          child: Center(
-                            child: _controllers[index].value.isInitialized
-                                ? AspectRatio(
-                              aspectRatio: _controllers[index].value.aspectRatio,
-                              child: VideoPlayer(_controllers[index]),
-                            )
-                                : const CircularProgressIndicator(),
+                        : Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50)),
+                                clipBehavior: Clip.hardEdge,
+                                height: 300,
+                                width: 300,
+                                child: Center(
+                                  child: _controllers[widget.index].value.isInitialized
+                                      ? AspectRatio(
+                                          aspectRatio: _controllers[widget.index]
+                                              .value
+                                              .aspectRatio,
+                                          child: VideoPlayer(_controllers[widget.index]),
+                                        )
+                                      : const CircularProgressIndicator(),
+                                ),
+                              ),
+                              Container(
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: 300,
+                                width: 500,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        model[widget.index].screenshotsimages.length,
+                                    itemBuilder: (BuildContext context, sindex) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Container(
+                                            clipBehavior: Clip.hardEdge,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Image.asset(
+                                              model[widget.index]
+                                                  .screenshotsimages[sindex],
+                                              height: 300,
+                                            )),
+                                      );
+                                    }),
+                              )
+                            ],
                           ),
-                        ),
-                        Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                          height: 300,
-                          width: 500,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: model[index].screenshotsimages.length,
-                              itemBuilder: (BuildContext context, sindex){
-                                return Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Container(
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                                      child: Image.asset(model[index].screenshotsimages[sindex], height: 300,)),
-                                );
-                              }),
-                        )
-                      ],
-                    ),
                     FloatingActionButton(
                       backgroundColor: Colors.orangeAccent,
                       onPressed: () {
                         setState(() {
-                          _controllers[index].value.isPlaying ? _controllers[index].pause() : _controllers[index].play();
+                          _controllers[widget.index].value.isPlaying
+                              ? _controllers[widget.index].pause()
+                              : _controllers[widget.index].play();
                         });
                       },
                       child: Icon(
                         color: Colors.white,
-                        _controllers[index].value.isPlaying ? Icons.pause : Icons.play_arrow,
+                        _controllers[widget.index].value.isPlaying
+                            ? Icons.pause
+                            : Icons.play_arrow,
                       ),
                     ),
                   ],
                 ),
-                            ),
-              );
-      });
-
+              ),
+            )));
   }
 }

@@ -6,14 +6,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
+import '../modals/projectModel.dart';
 import '../widgets/customwidgets.dart';
 import '../Screenshots.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
+    final List<Models> models = model;
+    late List<VideoPlayerController> _controllers;
+    @override
+    void initState() {
+      super.initState();
+      _controllers = models.map((model) => VideoPlayerController.asset(model.mp4)).toList();
+      // Initialize all controllers
+      for (var controller in _controllers) {
+        controller.initialize().then((_) {
+          setState(() {}); // Update the state to refresh the UI
+        });
+      }
+    }
     final skills = skill;
 
     Future<void> _launchURL(String url) async {
@@ -214,37 +234,41 @@ class HomeScreen extends StatelessWidget {
             const Center(child: Text("Work Experience", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),),
             SizedBox(height: 20,),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(46.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Left Section
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Work Experience',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                  Expanded(
+                    flex: 1,
+
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Work Experience',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Have been developing\nsince my past 1 years',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
+                        SizedBox(height: 8),
+                        Text(
+                          'Have been developing\nsince my past 1 years',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
                   ),
 
                   SizedBox(width: 50), // Space between sections
 
                   // Right Section
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -257,6 +281,14 @@ class HomeScreen extends StatelessWidget {
                           'Worked on report building, documentation, attended team meeting and client meeting, building with flutter',
                           date: "31, July 2024",
                         ),
+                        WorkExperienceCard(
+                          number: '2',
+                          color: Colors.red,
+                          title: 'Flutter Developer at AppNweb Technologies',
+                          description:
+                          "Built cross-platform mobile applications using Flutter and Dart. Integrated third-party APIs and handled state management using Provider. Designed and implemented responsive UI for web and mobile platforms.Collaborated with the team to deliver projects on time and met client requirements", date: '6, Jan 2025',
+
+                        ),
 
                       ],
                     ),
@@ -266,12 +298,68 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 20,),
             Center(key: projects, child: const Text("Projects", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
-            const SizedBox(height: 50,),
-            Center(
-              child: Container(
-                color: Colors.transparent,
-                width: 1000,
-                child: ProjectShowcase()
+             SizedBox(height: MediaQuery.sizeOf(context).width * 0.02,),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).width * 0.50,
+              width: MediaQuery.sizeOf(context).width,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: models.length,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.5, crossAxisSpacing: 10, mainAxisSpacing: 10 ), itemBuilder: (context, int index)
+
+                {
+                  return SizedBox(
+                    height: 100,
+                    width: 50,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProjectShowcase(index: index,)),
+                        );
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 10,
+                        clipBehavior: Clip.hardEdge,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Container(
+                                width: 110, // Adjust this based on the CircleAvatar radius + border thickness
+                                height: 110,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.black45, // Border color
+                                    width: 1.0, // Border thickness
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.black,
+                                  foregroundImage: AssetImage("${models[index].screenshotsimages[0]}"),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Flexible(
+                              child: Text("${models[index].name}", style: TextStyle(
+                                fontSize: MediaQuery.sizeOf(context).width * 0.02,
+                                fontWeight: FontWeight.bold
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
             SizedBox(height: 20,),
