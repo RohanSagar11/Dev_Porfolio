@@ -443,77 +443,75 @@ class _HomeScreenState extends State<HomeScreen> {
               width: MediaQuery.sizeOf(context).width,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Expanded(
-                  child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: models.length,
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: MediaQuery.sizeOf(context).width>500 ?   3 : 2,
-                          childAspectRatio: 1.5,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10),
-                      itemBuilder: (context, int index) {
-                        return SizedBox(
-                          height: 100,
-                          width: 50,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProjectShowcase(
-                                          index: index,
-                                        )),
-                              );
-                            },
-                            child: Card(
-                              color: Colors.white,
-                              elevation: 10,
-                              clipBehavior: Clip.hardEdge,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                      width:
-                                          110, // Adjust this based on the CircleAvatar radius + border thickness
-                                      height: 110,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Colors.black45, // Border color
-                                          width: 1.0, // Border thickness
-                                        ),
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 50,
-                                        backgroundColor: Colors.black,
-                                        foregroundColor: Colors.black,
-                                        foregroundImage: AssetImage(
-                                            "${models[index].screenshotsimages[0]}"),
+                child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: models.length,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: MediaQuery.sizeOf(context).width>500 ?   3 : 2,
+                        childAspectRatio: 1.5,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                    itemBuilder: (context, int index) {
+                      return SizedBox(
+                        height: 100,
+                        width: 50,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProjectShowcase(
+                                        index: index,
+                                      )),
+                            );
+                          },
+                          child: Card(
+                            color: Colors.white,
+                            elevation: 10,
+                            clipBehavior: Clip.hardEdge,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    width:
+                                        110, // Adjust this based on the CircleAvatar radius + border thickness
+                                    height: 110,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.black45, // Border color
+                                        width: 1.0, // Border thickness
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "${models[index].name}",
-                                      style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.sizeOf(context).width>500 ?  20 : 15,
-                                          fontWeight: FontWeight.w600),
+                                    child: CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.black,
+                                      foregroundImage: AssetImage(
+                                          "${models[index].icon}"),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    "${models[index].name}",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.sizeOf(context).width>500 ?  20 : 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      }),
-                ),
+                        ),
+                      );
+                    }),
               ),
             ),
             SizedBox(
